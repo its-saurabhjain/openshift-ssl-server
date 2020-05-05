@@ -4,38 +4,6 @@ metadata:
   name: java-template
 objects:
 - apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${APPLICATION_NAME}:latest
-    postCommit: {}
-    resources: {}
-    runPolicy: Serial
-    source:
-      git:
-        uri: "https://github.com/its-saurabhjain/openshift-ssl-server"
-        ref: "master"
-    strategy:
-      sourceStrategy:
-        from:
-          kind: DockerImage
-          name: registry.access.redhat.com/openjdk/openjdk-11-rhel8
-      type: Source
-    triggers:
-    - type: ConfigChange
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
@@ -53,7 +21,7 @@ objects:
       spec:
         containers:
         - name: ${APPLICATION_NAME}
-          image: ${APPLICATION_NAME}
+          image: itsaurabh/ssl-server:ocp4.3
           env:
             - name: keystore_jks
               value: /var/run/secrets/java.io/keystores/keystore.jks
@@ -93,15 +61,6 @@ objects:
           - name: service-certs
             secret:
               secretName: service-certs
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APPLICATION_NAME}
-        from:
-          kind: ImageStreamTag
-          name: ${APPLICATION_NAME}:latest
-      type: ImageChange
 - apiVersion: v1
   kind: Route
   metadata:
