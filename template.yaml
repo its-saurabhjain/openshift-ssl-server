@@ -81,7 +81,7 @@ objects:
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/serving-cert-secret-name: service-certs
+      service.beta.openshift.io/serving-cert-secret-name: service-certs
     labels:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
@@ -97,5 +97,5 @@ parameters:
 - name: APPLICATION_NAME
   description: The name for the application.
   displayName: Application name
-  value: http2server
+  value: ssl-server
   required: true

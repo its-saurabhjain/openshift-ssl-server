@@ -10,3 +10,4 @@ To cleanup
 ```
 oc delete all -l app=ssl-server
 ```
+https://developers.redhat.com/blog/2017/11/22/dynamically-creating-java-keystores-openshift/
